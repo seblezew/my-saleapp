@@ -1,0 +1,16 @@
+@import "@angular/material/prebuilt-themes/indigo-pink.css";
+
+/* Add these styles for better error handling */
+.custom-snackbar {
+  background-color: #f44336; /* Red color for error messages */
+  color: white;
+}
+
+.custom-snackbar.success {
+  background-color: #4CAF50; /* Green color for success messages */
+}
+
+body {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  margin: 0;
+}

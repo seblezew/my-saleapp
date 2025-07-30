@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | SMS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --accent: #4895ef;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4cc9f0;
+            --warning: #f72585;
+            --sidebar-width: 250px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            display: flex;
+            min-height: 100vh;
+            background-color: #f5f7fb;
+            color: var(--dark);
+        }
+        
+        .sidebar {
+            width: var(--sidebar-width);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.5rem 0;
+            height: 100vh;
+            position: fixed;
+            box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2rem;
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            font-size: 1.5rem;
+        }
+        
+        .menu {
+            list-style: none;
+        }
+        
+        .menu-item {
+            margin-bottom: 5px;
+        }
+        
+        .menu-link {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem 1.5rem;
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .menu-link:hover, .menu-link.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-left: 4px solid var(--accent);
+        }
+        
+        .menu-link i {
+            margin-right: 12px;
+            font-size: 1.1rem;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 1.5rem;
+        }
+        
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        .page-title h1 {
+            font-size: 1.8rem;
+            color: var(--primary);
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+        }
+        
+        .user-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            object-fit: cover;
+        }
+        
+        .user-info {
+            margin-right: 15px;
+            text-align: right;
+        }
+        
+        .user-info .name {
+            font-weight: 600;
+        }
+        
+        .user-info .role {
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-right: 1.5rem;
+        }
+        
+        .stat-sales .stat-icon {
+            background-color: rgba(76, 201, 240, 0.1);
+            color: var(--success);
+        }
+        
+        .stat-customers .stat-icon {
+            background-color: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+        }
+        
+        .stat-products .stat-icon {
+            background-color: rgba(247, 37, 133, 0.1);
+            color: var(--warning);
+        }
+        
+        .stat-revenue .stat-icon {
+            background-color: rgba(72, 149, 239, 0.1);
+            color: var(--accent);
+        }
+        
+        .stat-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 0.3rem;
+            color: var(--dark);
+        }
+        
+        .stat-info p {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        .charts-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .chart-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .chart-header h3 {
+            font-size: 1.2rem;
+            color: var(--dark);
+        }
+        
+        .chart-container {
+            height: 300px;
+            /* Chart would be rendered here by Chart.js or similar */
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6c757d;
+        }
+        
+        .recent-orders {
+            background-color: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        
+        .table-responsive {
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 0.8rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        th {
+            font-weight: 600;
+            color: var(--primary);
+            background-color: rgba(67, 97, 238, 0.05);
+        }
+        
+        tr:hover {
+            background-color: rgba(0, 0, 0, 0.01);
+        }
+        
+        .status {
+            padding: 0.3rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .status-pending {
+            background-color: rgba(255, 193, 7, 0.2);
+            color: #ffc107;
+        }
+        
+        .status-completed {
+            background-color: rgba(40, 167, 69, 0.2);
+            color: #28a745;
+        }
+        
+        .status-processing {
+            background-color: rgba(23, 162, 184, 0.2);
+            color: #17a2b8;
+        }
+        
+        .btn {
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            border: none;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.8rem;
+        }
+        
+        .btn-view {
+            background-color: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+        }
+        
+        .btn-view:hover {
+            background-color: rgba(67, 97, 238, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="logo">
+            <i class="fas fa-chart-line"></i>
+            <span>SMS</span>
+        </div>
+        <ul class="menu">
+            <li class="menu-item">
+                <a href="#" class="menu-link active">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="#" class="menu-link">
+                    <i class="fas fa-users"></i>
+                    <span>Customers</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="#" class="menu-link">
+                    <i class="fas fa-boxes"></i>
+                    <span>Products</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="#" class="menu-link">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Orders</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="#" class="menu-link">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                    <span>Invoices</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="#" class="menu-link">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Reports</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="#" class="menu-link">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </li>
+        </ul>
+    </aside>
+    
+    <main class="main-content">
+        <div class="topbar">
+            <div class="page-title">
+                <h1>Dashboard Overview</h1>
+            </div>
+            <div class="user-profile">
+                <div class="user-info">
+                    <div class="name">John Doe</div>
+                    <div class="role">Sales Manager</div>
+                </div>
+                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User Profile">
+            </div>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-card stat-sales">
+                <div class="stat-icon">
+                    <i class="fas fa-receipt"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>1,248</h3>
+                    <p>Total Sales</p>
+                </div>
+            </div>
+            <div class="stat-card stat-customers">
+                <div class="stat-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>542</h3>
+                    <p>Customers</p>
+                </div>
+            </div>
+            <div class="stat-card stat-products">
+                <div class="stat-icon">
+                    <i class="fas fa-box-open"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>187</h3>
+                    <p>Products</p>
+                </div>
+            </div>
+            <div class="stat-card stat-revenue">
+                <div class="stat-icon">
+                    <i class="fas fa-dollar-sign"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>$24,780</h3>
+                    <p>Revenue</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="charts-row">
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3>Sales Performance</h3>
+                    <select style="padding: 0.3rem; border-radius: 4px; border: 1px solid #ddd;">
+                        <option>Last 7 Days</option>
+                        <option>Last 30 Days</option>
+                        <option>Last 90 Days</option>
+                    </select>
+                </div>
+                <div class="chart-container">
+                    [Sales Chart Would Appear Here]
+                </div>
+            </div>
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3>Revenue Sources</h3>
+                </div>
+                <div class="chart-container">
+                    [Pie Chart Would Appear Here]
+                </div>
+            </div>
+        </div>
+        
+        <div class="recent-orders">
+            <div class="chart-header">
+                <h3>Recent Orders</h3>
+                <a href="#" style="color: var(--primary); text-decoration: none; font-size: 0.9rem;">View All</a>
+            </div>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Customer</th>
+                            <th>Date</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#ORD-7841</td>
+                            <td>Acme Corporation</td>
+                            <td>Jun 12, 2023</td>
+                            <td>$1,245.00</td>
+                            <td><span class="status status-completed">Completed</span></td>
+                            <td><button class="btn btn-view">View</button></td>
+                        </tr>
+                        <tr>
+                            <td>#ORD-7839</td>
+                            <td>Globex Inc.</td>
+                            <td>Jun 11, 2023</td>
+                            <td>$845.50</td>
+                            <td><span class="status status-processing">Processing</span></td>
+                            <td><button class="btn btn-view">View</button></td>
+                        </tr>
+                        <tr>
+                            <td>#ORD-7835</td>
+                            <td>Initech LLC</td>
+                            <td>Jun 10, 2023</td>
+                            <td>$2,340.00</td>
+                            <td><span class="status status-completed">Completed</span></td>
+                            <td><button class="btn btn-view">View</button></td>
+                        </tr>
+                        <tr>
+                            <td>#ORD-7828</td>
+                            <td>Umbrella Corp.</td>
+                            <td>Jun 9, 2023</td>
+                            <td>$1,750.00</td>
+                            <td><span class="status status-pending">Pending</span></td>
+                            <td><button class="btn btn-view">View</button></td>
+                        </tr>
+                        <tr>
+                            <td>#ORD-7823</td>
+                            <td>Stark Industries</td>
+                            <td>Jun 8, 2023</td>
+                            <td>$3,420.00</td>
+                            <td><span class="status status-completed">Completed</span></td>
+                            <td><button class="btn btn-view">View</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

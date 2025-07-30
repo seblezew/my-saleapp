@@ -1,0 +1,52 @@
+<div style="padding: 2rem;">
+  <h1>Admin Dashboard</h1>
+  <p>A Simple Sales Management System (SMS) helps businesses manage their sales processes efficiently.</p>
+
+  <mat-card class="dashboard-card" (click)="goTo('customers')" style="cursor: pointer;">
+    <h2>Customer Management</h2>
+    <ul>
+      <li>Add, update, and manage customer information</li>
+      <li>Track customer interactions and purchase history</li>
+    </ul>
+  </mat-card>
+
+  <mat-card class="dashboard-card" (click)="goTo('products')" style="cursor: pointer;">
+    <h2>Product Management</h2>
+    <ul>
+      <li>Manage product listings including descriptions and pricing</li>
+      <li>Track inventory levels and reorder alerts</li>
+    </ul>
+  </mat-card>
+
+  <mat-card class="dashboard-card" (click)="goTo('orders')" style="cursor: pointer;">
+    <h2>Order Management</h2>
+    <ul>
+      <li>Create and manage sales orders</li>
+      <li>Track order status from creation to fulfillment</li>
+    </ul>
+  </mat-card>
+
+  <mat-card class="dashboard-card" (click)="goTo('invoices')" style="cursor: pointer;">
+    <h2>Invoicing</h2>
+    <ul>
+      <li>Generate and send invoices to customers</li>
+      <li>Track payment status and manage receipts</li>
+    </ul>
+  </mat-card>
+
+  <mat-card class="dashboard-card" (click)="goTo('reports')" style="cursor: pointer;">
+    <h2>Reporting & Analytics</h2>
+    <ul>
+      <li>Generate sales reports and customer insights</li>
+      <li>Analyze sales trends and performance metrics</li>
+    </ul>
+  </mat-card>
+
+  <mat-card class="dashboard-card" (click)="goTo('users')" style="cursor: pointer;">
+    <h2>User Management</h2>
+    <ul>
+      <li>Manage user accounts and permissions</li>
+      <li>Track user activity and performance</li>
+    </ul>
+  </mat-card>
+</div>

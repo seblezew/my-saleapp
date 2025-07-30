@@ -1,0 +1,35 @@
+<h2>Customer Management</h2>
+
+<form (ngSubmit)="addCustomer()" class="customer-form">
+  <input type="text" placeholder="Name" [(ngModel)]="newCustomer.name" name="name" required />
+  <input type="email" placeholder="Email" [(ngModel)]="newCustomer.email" name="email" required />
+  <input type="text" placeholder="Phone" [(ngModel)]="newCustomer.phone" name="phone" required />
+  <button type="submit">
+    {{ isEditing ? 'Update Customer' : 'Add Customer' }}
+  </button>
+  <button *ngIf="isEditing" type="button" (click)="resetForm()">Cancel</button>
+</form>
+
+<table class="customer-table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let customer of customers">
+      <td>{{ customer.id }}</td>
+      <td>{{ customer.name }}</td>
+      <td>{{ customer.email }}</td>
+      <td>{{ customer.phone }}</td>
+      <td class="actions">
+        <button class="edit-btn" (click)="editCustomer(customer)">Edit</button>
+        <button class="delete-btn" (click)="deleteCustomer(customer)">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
