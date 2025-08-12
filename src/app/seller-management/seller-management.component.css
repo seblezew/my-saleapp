@@ -1,0 +1,89 @@
+.seller-management-container {
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.add-seller-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+
+.sellers-table {
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.table-header {
+  display: flex;
+  background-color: #f5f5f5;
+  font-weight: bold;
+  border-bottom: 1px solid #ddd;
+}
+
+.header-cell {
+  padding: 12px 15px;
+  flex: 1;
+  text-align: left;
+}
+
+.table-row {
+  display: flex;
+  border-bottom: 1px solid #eee;
+  background-color: white;
+}
+
+.table-row:hover {
+  background-color: #f9f9f9;
+}
+
+.table-cell {
+  padding: 12px 15px;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.status-label {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.status-label.active {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.status-label.inactive {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+.actions-cell {
+  gap: 8px;
+}
+
+.icon-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  font-size: 16px;
+}

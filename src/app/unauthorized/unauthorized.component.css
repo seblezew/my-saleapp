@@ -1,0 +1,81 @@
+.unauthorized-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  padding: 20px;
+}
+
+.card {
+  width: 100%;
+  max-width: 600px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  background-color: #dc3545;
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
+
+.card-header h1 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+.card-header i {
+  margin-right: 10px;
+}
+
+.card-body {
+  padding: 30px;
+}
+
+.alert {
+  margin-bottom: 20px;
+}
+
+.user-info {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}
+
+.badge {
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.badge-admin {
+  background-color: #6f42c1;
+  color: white;
+}
+
+.badge-seller {
+  background-color: #fd7e14;
+  color: white;
+}
+
+.badge-user {
+  background-color: #20c997;
+  color: white;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn i {
+  font-size: 1rem;
+}

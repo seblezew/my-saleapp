@@ -1,0 +1,173 @@
+<div class="dashboard-container">
+  <header class="dashboard-header">
+    <div class="header-left">
+      <h1>Seller Dashboard</h1>
+      <p class="welcome-message">Welcome back, {{currentUser?.firstName}}!</p>
+    </div>
+    <div class="header-right">
+      <button mat-icon-button [matBadge]="unreadMessages" matBadgeColor="warn" [matMenuTriggerFor]="userMenu">
+        <mat-icon>account_circle</mat-icon>
+      </button>
+      <mat-menu #userMenu="matMenu">
+        <button mat-menu-item (click)="navigateTo('messages')">
+          <mat-icon>mail</mat-icon> Messages
+          <span *ngIf="unreadMessages > 0" class="badge">{{unreadMessages}}</span>
+        </button>
+        <button mat-menu-item (click)="navigateTo('profile')">
+          <mat-icon>settings</mat-icon> Settings
+        </button>
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>logout</mat-icon> Logout
+        </button>
+      </mat-menu>
+    </div>
+  </header>
+
+  <div class="dashboard-content">
+    <!-- Stats Overview -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-header">
+          <h3>Products</h3>
+          <mat-icon>inventory</mat-icon>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{stats.products}}</div>
+          <button mat-button color="primary" (click)="navigateTo('products')">View All</button>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-header">
+          <h3>Total Orders</h3>
+          <mat-icon>shopping_cart</mat-icon>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{stats.orders}}</div>
+          <button mat-button color="primary" (click)="navigateTo('orders')">View All</button>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-header">
+          <h3>Pending Orders</h3>
+          <mat-icon>pending_actions</mat-icon>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{stats.pendingOrders}}</div>
+          <button mat-button color="warn" (click)="navigateTo('orders?status=PENDING')">Process Now</button>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-header">
+          <h3>Total Revenue</h3>
+          <mat-icon>attach_money</mat-icon>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">${{stats.revenue | number:'1.0-0'}}</div>
+          <button mat-button color="primary" (click)="navigateTo('reports')">View Reports</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+      <button mat-raised-button color="primary" (click)="navigateTo('products/new')">
+        <mat-icon>add</mat-icon> Add Product
+      </button>
+      <button mat-raised-button (click)="navigateTo('customers')">
+        <mat-icon>people</mat-icon> View Customers
+      </button>
+      <button mat-raised-button (click)="navigateTo('messages')">
+        <mat-icon>mail</mat-icon> Messages
+        <span *ngIf="unreadMessages > 0" class="badge">{{unreadMessages}}</span>
+      </button>
+    </div>
+
+    <!-- Recent Orders -->
+    <div class="recent-orders">
+      <div class="section-header">
+        <h2>Recent Orders</h2>
+      </div>
+      <div class="section-content">
+        <table mat-table [dataSource]="recentOrders" *ngIf="recentOrders.length > 0">
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef>Order ID</th>
+            <td mat-cell *matCellDef="let order">#{{order.id}}</td>
+          </ng-container>
+          <ng-container matColumnDef="customer">
+            <th mat-header-cell *matHeaderCellDef>Customer</th>
+            <td mat-cell *matCellDef="let order">{{order.customerName || 'N/A'}}</td>
+          </ng-container>
+          <ng-container matColumnDef="date">
+            <th mat-header-cell *matHeaderCellDef>Date</th>
+            <td mat-cell *matCellDef="let order">{{order.orderDate | date:'shortDate'}}</td>
+          </ng-container>
+          <ng-container matColumnDef="amount">
+            <th mat-header-cell *matHeaderCellDef>Amount</th>
+            <td mat-cell *matCellDef="let order">${{order.totalAmount | number:'1.2-2'}}</td>
+          </ng-container>
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let order">
+              <span [class]="'status-badge ' + (order.status?.toLowerCase() || '')">
+                {{order.status || 'UNKNOWN'}}
+              </span>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let order">
+              <button mat-icon-button color="primary" (click)="navigateTo('orders/' + order.id)">
+                <mat-icon>visibility</mat-icon>
+              </button>
+              <button *ngIf="order.status === 'PENDING'" mat-icon-button color="accent" 
+                      (click)="updateOrderStatus(order.id, 'PROCESSING')">
+                <mat-icon>check_circle</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="['id', 'customer', 'date', 'amount', 'status', 'actions']"></tr>
+          <tr mat-row *matRowDef="let row; columns: ['id', 'customer', 'date', 'amount', 'status', 'actions']"></tr>
+        </table>
+        <p *ngIf="recentOrders.length === 0 && !loading">No recent orders</p>
+        <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+      </div>
+    </div>
+
+    <!-- Low Stock Products -->
+    <div class="low-stock">
+      <div class="section-header">
+        <h2>Low Stock Products</h2>
+      </div>
+      <div class="section-content">
+        <table mat-table [dataSource]="lowStockProducts" *ngIf="lowStockProducts.length > 0">
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Product Name</th>
+            <td mat-cell *matCellDef="let product">{{product.name}}</td>
+          </ng-container>
+          <ng-container matColumnDef="stock">
+            <th mat-header-cell *matHeaderCellDef>Stock</th>
+            <td mat-cell *matCellDef="let product">{{product.stockQuantity}}</td>
+          </ng-container>
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let product">
+              <button mat-icon-button color="primary" (click)="navigateTo('products/edit/' + product.id)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" (click)="restockProduct(product.id)">
+                <mat-icon>add_circle</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="['name', 'stock', 'actions']"></tr>
+          <tr mat-row *matRowDef="let row; columns: ['name', 'stock', 'actions']"></tr>
+        </table>
+        <p *ngIf="lowStockProducts.length === 0 && !loading">No low stock products</p>
+        <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+      </div>
+    </div>
+  </div>
+</div>

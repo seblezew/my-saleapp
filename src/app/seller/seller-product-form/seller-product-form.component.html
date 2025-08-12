@@ -1,0 +1,112 @@
+<div class="product-form-container">
+  <mat-card>
+    <!-- Added static image here -->
+    <div class="brand-logo-container">
+      <img src="assets/images/techno.jpeg" alt="Techno Brand Logo" class="brand-logo">
+    </div>
+    
+    <mat-card-header>
+      <mat-card-title>
+        <h2>{{ isEditMode ? 'Edit Product' : 'Add New Product' }}</h2>
+      </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+        <!-- Image Preview Section -->
+        <div class="image-preview">
+          <h3>Product Image</h3>
+          <img [src]="productForm.get('imageUrl')?.value || defaultProductImage" 
+               alt="Product Image"
+               class="product-image">
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Product Name</mat-label>
+            <input matInput formControlName="name" placeholder="Enter product name">
+            <mat-error *ngIf="productForm.get('name')?.hasError('required')">
+              Product name is required
+            </mat-error>
+            <mat-error *ngIf="productForm.get('name')?.hasError('maxlength')">
+              Maximum length is 255 characters
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Description</mat-label>
+            <textarea matInput formControlName="description" rows="4"
+                     placeholder="Enter product description"></textarea>
+            <mat-error *ngIf="productForm.get('description')?.hasError('maxlength')">
+              Maximum length is 1000 characters
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="half-width">
+            <mat-label>Price ($)</mat-label>
+            <input matInput type="number" formControlName="price" min="0.01" step="0.01">
+            <mat-error *ngIf="productForm.get('price')?.hasError('required')">
+              Price is required
+            </mat-error>
+            <mat-error *ngIf="productForm.get('price')?.hasError('min')">
+              Price must be at least $0.01
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="half-width">
+            <mat-label>Stock Quantity</mat-label>
+            <input matInput type="number" formControlName="stockQuantity" min="0">
+            <mat-error *ngIf="productForm.get('stockQuantity')?.hasError('required')">
+              Stock quantity is required
+            </mat-error>
+            <mat-error *ngIf="productForm.get('stockQuantity')?.hasError('min')">
+              Stock cannot be negative
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Category</mat-label>
+            <mat-select formControlName="category" required>
+              <mat-option *ngFor="let category of categories" [value]="category">
+                {{ category }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="productForm.get('category')?.hasError('required')">
+              Category is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Image URL</mat-label>
+            <input matInput formControlName="imageUrl" placeholder="https://example.com/techno.jpeg">
+            <mat-error *ngIf="productForm.get('imageUrl')?.hasError('invalidUrl')">
+              Please enter a valid URL starting with http:// or https://
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-actions">
+          <button mat-raised-button color="warn" type="button" 
+                  (click)="navigateToProducts()">
+            Cancel
+          </button>
+          <button mat-raised-button color="primary" type="submit" 
+                  [disabled]="productForm.invalid || isLoading">
+            {{ isEditMode ? 'Update Product' : 'Add Product' }}
+            <mat-icon *ngIf="isLoading">
+              <mat-spinner diameter="20"></mat-spinner>
+            </mat-icon>
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

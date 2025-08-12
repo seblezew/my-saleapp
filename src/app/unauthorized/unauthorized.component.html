@@ -1,0 +1,35 @@
+<div class="unauthorized-container">
+  <div class="card">
+    <div class="card-header">
+      <h1><i class="fas fa-ban"></i> Access Denied</h1>
+    </div>
+    <div class="card-body">
+      <div class="alert alert-warning">
+        <h4>401 - Unauthorized Access</h4>
+        <p>You don't have permission to view this page.</p>
+        
+        <div *ngIf="currentUserRole" class="user-info">
+          <p>
+            You are logged in as: 
+            <span class="badge" [ngClass]="{
+              'badge-admin': currentUserRole === 'admin',
+              'badge-seller': currentUserRole === 'seller',
+              'badge-user': !['admin', 'seller'].includes(currentUserRole)
+            }">
+              {{ currentUserRole | uppercase }}
+            </span>
+          </p>
+        </div>
+      </div>
+
+      <div class="action-buttons">
+        <button class="btn btn-primary" (click)="navigateToDashboard()">
+          <i class="fas fa-tachometer-alt"></i> Go to My Dashboard
+        </button>
+        <button class="btn btn-secondary" (click)="logout()">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

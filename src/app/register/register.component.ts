@@ -73,7 +73,7 @@ export class RegisterComponent {
           queryParams: { registered: 'true' }
         });
       },
-      error: (error) => {
+      error: (error: Error) => {
         this.isLoading = false;
         this.isSubmitting = false;
         this.errorMessages['general'] = error.message;

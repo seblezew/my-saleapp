@@ -1,0 +1,79 @@
+<div class="sidebar">
+  <div class="sidebar-header">
+    <h2>Sale Management</h2>
+  </div>
+  
+  <div class="sidebar-content">
+    <!-- Admin Navigation -->
+    <div *ngIf="authService.isAdmin()" class="nav-section">
+      <ul class="nav-list">
+        <li>
+          <a routerLink="/admin/dashboard" routerLinkActive="active">
+            <mat-icon>dashboard</mat-icon>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/admin/sellers" routerLinkActive="active">
+            <mat-icon>people</mat-icon>
+            <span>Manage Sellers</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/admin/customers" routerLinkActive="active">
+            <mat-icon>person</mat-icon>
+            <span>Customers</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/admin/register-seller" routerLinkActive="active">
+            <mat-icon>person_add</mat-icon>
+            <span>Register Seller</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+    
+    <!-- Seller Navigation -->
+    <div *ngIf="authService.isSeller()" class="nav-section">
+      <ul class="nav-list">
+        <li>
+          <a routerLink="/seller/dashboard" routerLinkActive="active">
+            <mat-icon>dashboard</mat-icon>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/seller/products" routerLinkActive="active">
+            <mat-icon>inventory_2</mat-icon>
+            <span>Products</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/seller/orders" routerLinkActive="active">
+            <mat-icon>shopping_cart</mat-icon>
+            <span>Orders</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/seller/customers" routerLinkActive="active">
+            <mat-icon>people</mat-icon>
+            <span>Customers</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+    
+    <!-- Logout Option -->
+    <div class="nav-section">
+      <ul class="nav-list">
+        <li>
+          <a (click)="authService.logout()" class="logout-link">
+            <mat-icon>exit_to_app</mat-icon>
+            <span>Logout</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

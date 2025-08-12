@@ -1,6 +1,8 @@
 
 
 import { Component } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -9,4 +11,17 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'my-saleapp';
+  showLayout = false;
+
+  constructor(private router: Router) {
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: any) => {
+      // Don't show layout for login, register, and unauthorized pages
+      const path = event.urlAfterRedirects;
+      this.showLayout = !path.includes('/login') && 
+                       !path.includes('/register') && 
+                       !path.includes('/unauthorized');
+    });
+  }
 }

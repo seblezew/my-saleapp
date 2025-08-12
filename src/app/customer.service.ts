@@ -8,6 +8,9 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class CustomerService {
+  getCustomers() {
+    throw new Error('Method not implemented.');
+  }
   private apiUrl = 'http://localhost:3000/customers';
 
   constructor(private http: HttpClient) { }

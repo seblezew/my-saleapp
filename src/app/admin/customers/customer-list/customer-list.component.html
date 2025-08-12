@@ -1,16 +1,13 @@
-<h2>Customer Management</h2>
+<h2>Customer List</h2>
 
-<form (ngSubmit)="addCustomer()" class="customer-form">
-  <input type="text" placeholder="Name" [(ngModel)]="newCustomer.name" name="name" required />
-  <input type="email" placeholder="Email" [(ngModel)]="newCustomer.email" name="email" required />
-  <input type="text" placeholder="Phone" [(ngModel)]="newCustomer.phone" name="phone" required />
-  <button type="submit">
-    {{ isEditing ? 'Update Customer' : 'Add Customer' }}
-  </button>
-  <button *ngIf="isEditing" type="button" (click)="resetForm()">Cancel</button>
-</form>
+<div>
+  <input type="text" placeholder="Name" [(ngModel)]="newCustomer.name" />
+  <input type="email" placeholder="Email" [(ngModel)]="newCustomer.email" />
+  <input type="text" placeholder="Phone" [(ngModel)]="newCustomer.phone" />
+  <button (click)="addCustomer()">Add Customer</button>
+</div>
 
-<table class="customer-table">
+<table border="1" style="margin-top: 20px; width: 100%;">
   <thead>
     <tr>
       <th>ID</th>
@@ -26,9 +23,9 @@
       <td>{{ customer.name }}</td>
       <td>{{ customer.email }}</td>
       <td>{{ customer.phone }}</td>
-      <td class="actions">
-        <button class="edit-btn" (click)="editCustomer(customer)">Edit</button>
-        <button class="delete-btn" (click)="deleteCustomer(customer)">Delete</button>
+      <td>
+        <button (click)="editCustomer(customer)">Edit</button>
+        <button (click)="deleteCustomer(customer)">Delete</button>
       </td>
     </tr>
   </tbody>

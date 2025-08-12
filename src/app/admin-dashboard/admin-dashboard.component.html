@@ -1,52 +1,238 @@
-<div style="padding: 2rem;">
-  <h1>Admin Dashboard</h1>
-  <p>A Simple Sales Management System (SMS) helps businesses manage their sales processes efficiently.</p>
+<div class="dashboard-container">
+  <header class="dashboard-header">
+    <div class="header-left">
+      <h1>Admin Dashboard</h1>
+      <p class="welcome-message">Welcome back, Administrator!</p>
+    </div>
+    <div class="header-right">
+      <button class="icon-button" [matMenuTriggerFor]="userMenu">
+        <span class="material-icons">account_circle</span>
+      </button>
+      <mat-menu #userMenu="matMenu">
+        <button class="menu-item" (click)="navigateTo('profile')">
+          <span class="material-icons">settings</span> Settings
+        </button>
+        <button class="menu-item" (click)="logout()">
+          <span class="material-icons">logout</span> Logout
+        </button>
+      </mat-menu>
+    </div>
+  </header>
 
-  <mat-card class="dashboard-card" (click)="goTo('customers')" style="cursor: pointer;">
-    <h2>Customer Management</h2>
-    <ul>
-      <li>Add, update, and manage customer information</li>
-      <li>Track customer interactions and purchase history</li>
-    </ul>
-  </mat-card>
+  <div class="dashboard-content">
+    <div class="progress-bar" *ngIf="loading"></div>
 
-  <mat-card class="dashboard-card" (click)="goTo('products')" style="cursor: pointer;">
-    <h2>Product Management</h2>
-    <ul>
-      <li>Manage product listings including descriptions and pricing</li>
-      <li>Track inventory levels and reorder alerts</li>
-    </ul>
-  </mat-card>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-header">
+          <h3>Sellers</h3>
+          <span class="material-icons">store</span>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{loading ? '-' : stats.sellers}}</div>
+          <div class="stat-change positive">+5% from last month</div>
+          <button class="primary-button" (click)="goTo('sellers')">Manage</button>
+        </div>
+      </div>
 
-  <mat-card class="dashboard-card" (click)="goTo('orders')" style="cursor: pointer;">
-    <h2>Order Management</h2>
-    <ul>
-      <li>Create and manage sales orders</li>
-      <li>Track order status from creation to fulfillment</li>
-    </ul>
-  </mat-card>
+      <div class="stat-card">
+        <div class="stat-header">
+          <h3>Customers</h3>
+          <span class="material-icons">people</span>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{loading ? '-' : stats.customers}}</div>
+          <div class="stat-change positive">+12% from last month</div>
+          <button class="primary-button" (click)="goTo('customers')">Manage</button>
+        </div>
+      </div>
 
-  <mat-card class="dashboard-card" (click)="goTo('invoices')" style="cursor: pointer;">
-    <h2>Invoicing</h2>
-    <ul>
-      <li>Generate and send invoices to customers</li>
-      <li>Track payment status and manage receipts</li>
-    </ul>
-  </mat-card>
+      <div class="stat-card">
+        <div class="stat-header">
+          <h3>Products</h3>
+          <span class="material-icons">shopping_basket</span>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{loading ? '-' : stats.products}}</div>
+          <div class="stat-change positive">+8% from last month</div>
+          <button class="primary-button" (click)="goTo('products')">View</button>
+        </div>
+      </div>
 
-  <mat-card class="dashboard-card" (click)="goTo('reports')" style="cursor: pointer;">
-    <h2>Reporting & Analytics</h2>
-    <ul>
-      <li>Generate sales reports and customer insights</li>
-      <li>Analyze sales trends and performance metrics</li>
-    </ul>
-  </mat-card>
+      <div class="stat-card">
+        <div class="stat-header">
+          <h3>Revenue</h3>
+          <span class="material-icons">attach_money</span>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">${{loading ? '-' : (stats.revenue | number:'1.0-0')}}</div>
+          <div class="stat-change positive">+15% from last month</div>
+          <button class="primary-button" (click)="goTo('reports')">View Reports</button>
+        </div>
+      </div>
+    </div>
 
-  <mat-card class="dashboard-card" (click)="goTo('users')" style="cursor: pointer;">
-    <h2>User Management</h2>
-    <ul>
-      <li>Manage user accounts and permissions</li>
-      <li>Track user activity and performance</li>
-    </ul>
-  </mat-card>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="card-header">
+          <span class="material-icons">people</span>
+          <h3>Customer Management</h3>
+        </div>
+        <ul class="card-features">
+          <li>View all customer accounts</li>
+          <li>Track interactions & purchases</li>
+          <li>Customer segmentation</li>
+        </ul>
+        <button class="primary-button" (click)="goTo('customers')">Manage Customers</button>
+      </div>
+
+      <div class="feature-card">
+        <div class="card-header">
+          <span class="material-icons">inventory</span>
+          <h3>Product Management</h3>
+        </div>
+        <ul class="card-features">
+          <li>View all product listings</li>
+          <li>Monitor inventory levels</li>
+          <li>Track product performance</li>
+        </ul>
+        <button class="primary-button" (click)="goTo('products')">View Products</button>
+      </div>
+
+      <div class="feature-card">
+        <div class="card-header">
+          <span class="material-icons">shopping_cart</span>
+          <h3>Order Management</h3>
+        </div>
+        <ul class="card-features">
+          <li>View all orders</li>
+          <li>Track fulfillment status</li>
+          <li>Process returns</li>
+        </ul>
+        <button class="primary-button" (click)="goTo('orders')">View Orders</button>
+      </div>
+
+      <div class="feature-card">
+        <div class="card-header">
+          <span class="material-icons">receipt</span>
+          <h3>Invoicing</h3>
+        </div>
+        <ul class="card-features">
+          <li>Generate invoices</li>
+          <li>Payment tracking</li>
+          <li>Receipt management</li>
+        </ul>
+        <button class="primary-button" (click)="goTo('invoices')">View Invoices</button>
+      </div>
+
+      <div class="feature-card">
+        <div class="card-header">
+          <span class="material-icons">analytics</span>
+          <h3>Reporting & Analytics</h3>
+        </div>
+        <ul class="card-features">
+          <li>Sales reports</li>
+          <li>Customer insights</li>
+          <li>Performance metrics</li>
+        </ul>
+        <button class="primary-button" (click)="goTo('reports')">View Reports</button>
+      </div>
+
+      <div class="feature-card">
+        <div class="card-header">
+          <span class="material-icons">storefront</span>
+          <h3>Seller Management</h3>
+        </div>
+        <ul class="card-features">
+          <li>Register new sellers</li>
+          <li>Manage permissions</li>
+          <li>Track performance</li>
+        </ul>
+        <button class="primary-button" (click)="navigateToSellerManagement()">Manage Sellers</button>
+      </div>
+    </div>
+
+    <div class="recent-orders">
+      <div class="section-header">
+        <h2>Recent Orders</h2>
+      </div>
+      <div class="section-content">
+        <div *ngIf="loading; else ordersContent">
+          <div class="spinner"></div>
+        </div>
+        <ng-template #ordersContent>
+          <table class="orders-table" *ngIf="recentOrders.length > 0">
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Customer</th>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let order of recentOrders">
+                <td>#{{order.id}}</td>
+                <td>{{order.customerName || 'N/A'}}</td>
+                <td>{{order.orderDate | date:'mediumDate'}}</td>
+                <td>${{order.totalAmount | number:'1.2-2'}}</td>
+                <td>
+                  <span class="status-badge" [class]="'status-' + order.status.toLowerCase()">
+                    {{order.status}}
+                  </span>
+                </td>
+                <td>
+                  <button class="icon-button" (click)="navigateTo('orders/' + order.id)">
+                    <span class="material-icons">visibility</span>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <p *ngIf="recentOrders.length === 0">No recent orders found</p>
+        </ng-template>
+      </div>
+    </div>
+
+    <div class="top-sellers">
+      <div class="section-header">
+        <h2>Top Sellers</h2>
+      </div>
+      <div class="section-content">
+        <div *ngIf="loading; else sellersContent">
+          <div class="spinner"></div>
+        </div>
+        <ng-template #sellersContent>
+          <div class="seller-list" *ngIf="topSellers.length > 0; else noSellers">
+            <div class="seller-item" *ngFor="let seller of topSellers">
+              <div class="seller-info">
+                <div class="seller-avatar">
+                  {{seller.firstName.charAt(0)}}{{seller.lastName.charAt(0)}}
+                </div>
+                <div>
+                  <div class="seller-name">{{seller.firstName}} {{seller.lastName}}</div>
+                  <div class="seller-email">{{seller.email}}</div>
+                </div>
+              </div>
+              <div class="seller-stats">
+                <div class="stat">
+                  <div class="stat-value">${{seller.totalSales | number:'1.0-0'}}</div>
+                  <div class="stat-label">Sales</div>
+                </div>
+                <div class="stat">
+                  <div class="stat-value">{{seller.orderCount}}</div>
+                  <div class="stat-label">Orders</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ng-template #noSellers>
+            <p>No top sellers data available</p>
+          </ng-template>
+        </ng-template>
+      </div>
+    </div>
+  </div>
 </div>

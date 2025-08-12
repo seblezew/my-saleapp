@@ -1,0 +1,75 @@
+<div class="product-detail-container" *ngIf="!loading; else loadingIndicator">
+  <div *ngIf="product" class="product-detail">
+    <!-- Main product section -->
+    <div class="product-main">
+      <div class="product-image">
+        <img [src]="product.imageUrl || 'assets/default-product.png'" [alt]="product.name" class="main-image">
+      </div>
+      
+      <div class="product-info">
+        <h1>{{ product.name }}</h1>
+        <div class="price-section">
+          <span class="price">{{ product.price | currency }}</span>
+          <span *ngIf="product.stockQuantity > 0" class="in-stock">In Stock</span>
+          <span *ngIf="product.stockQuantity <= 0" class="out-of-stock">Out of Stock</span>
+        </div>
+        
+        <div class="product-actions">
+          <button 
+            (click)="addToCart()" 
+            [disabled]="product.stockQuantity <= 0 || !isLoggedIn()"
+            class="add-to-cart-btn"
+          >
+            {{ product.stockQuantity <= 0 ? 'Out of Stock' : 'Add to Cart' }}
+          </button>
+        </div>
+
+        <div class="product-meta">
+          <p><strong>Category:</strong> {{ product.category || 'N/A' }}</p>
+          <p><strong>SKU:</strong> {{ product.id }}</p>
+          <p><strong>Available Quantity:</strong> {{ product.stockQuantity }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product description section -->
+    <div class="product-description">
+      <h2>Description</h2>
+      <p>{{ product.description || 'No description available.' }}</p>
+    </div>
+
+    <!-- Related products section -->
+    <div class="related-products">
+      <h2>You May Also Like</h2>
+      <div class="related-products-grid">
+        <div *ngFor="let relatedProduct of relatedProducts" class="product-card" (click)="navigateToProduct(relatedProduct.id)">
+          <img [src]="relatedProduct.imageUrl || 'assets/default-product.png'" [alt]="relatedProduct.name">
+          <h3>{{ relatedProduct.name }}</h3>
+          <p>{{ relatedProduct.price | currency }}</p>
+          <button 
+            (click)="addRelatedToCart(relatedProduct, $event)"
+            class="add-to-cart-btn"
+          >
+            Add to Cart
+          </button>
+        </div>
+        <div *ngIf="!relatedProducts?.length" class="no-related-products">
+          <p>No related products found.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!product" class="product-not-found">
+    <h2>Product Not Found</h2>
+    <p>Sorry, the product you're looking for doesn't exist.</p>
+    <a routerLink="/products" class="back-to-products">Back to Products</a>
+  </div>
+</div>
+
+<ng-template #loadingIndicator>
+  <div class="loading-spinner">
+    <div class="spinner"></div>
+    <p>Loading product details...</p>
+  </div>
+</ng-template>

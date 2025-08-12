@@ -1,0 +1,154 @@
+<div class="register-seller-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Register New Seller</mat-card-title>
+    </mat-card-header>
+    
+    <mat-card-content>
+      <form [formGroup]="sellerForm" (ngSubmit)="onSubmit()">
+        <div class="form-row">
+          <mat-form-field appearance="outline">
+            <mat-label>First Name</mat-label>
+            <input matInput formControlName="firstName" required>
+            <mat-icon matSuffix>person</mat-icon>
+            <mat-error *ngIf="sellerForm.get('firstName')?.hasError('required')">
+              First name is required
+            </mat-error>
+            <mat-error *ngIf="sellerForm.get('firstName')?.hasError('minlength')">
+              Minimum 2 characters required
+            </mat-error>
+            <mat-error *ngIf="sellerForm.get('firstName')?.hasError('maxlength')">
+              Maximum 100 characters allowed
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Last Name</mat-label>
+            <input matInput formControlName="lastName" required>
+            <mat-icon matSuffix>person</mat-icon>
+            <mat-error *ngIf="sellerForm.get('lastName')?.hasError('required')">
+              Last name is required
+            </mat-error>
+            <mat-error *ngIf="sellerForm.get('lastName')?.hasError('minlength')">
+              Minimum 2 characters required
+            </mat-error>
+            <mat-error *ngIf="sellerForm.get('lastName')?.hasError('maxlength')">
+              Maximum 100 characters allowed
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email" type="email" required>
+          <mat-icon matSuffix>email</mat-icon>
+          <mat-error *ngIf="sellerForm.get('email')?.hasError('required')">
+            Email is required
+          </mat-error>
+          <mat-error *ngIf="sellerForm.get('email')?.hasError('email')">
+            Please enter a valid email
+          </mat-error>
+          <mat-error *ngIf="sellerForm.get('email')?.hasError('maxlength')">
+            Maximum 255 characters allowed
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Phone Number</mat-label>
+          <input matInput formControlName="phone" required>
+          <mat-icon matSuffix>phone</mat-icon>
+          <mat-error *ngIf="sellerForm.get('phone')?.hasError('required')">
+            Phone is required
+          </mat-error>
+          <mat-error *ngIf="sellerForm.get('phone')?.hasError('pattern')">
+            Please enter 10-15 digits
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Address</mat-label>
+          <textarea matInput formControlName="address" required rows="3"></textarea>
+          <mat-icon matSuffix>home</mat-icon>
+          <mat-error *ngIf="sellerForm.get('address')?.hasError('required')">
+            Address is required
+          </mat-error>
+          <mat-error *ngIf="sellerForm.get('address')?.hasError('minlength')">
+            Minimum 3 characters required
+          </mat-error>
+          <mat-error *ngIf="sellerForm.get('address')?.hasError('maxlength')">
+            Maximum 500 characters allowed
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Commission Rate (%)</mat-label>
+          <input matInput formControlName="commissionRate" type="number" min="0" max="100" required>
+          <mat-icon matSuffix>percent</mat-icon>
+          <mat-error *ngIf="sellerForm.get('commissionRate')?.hasError('required')">
+            Commission rate is required
+          </mat-error>
+          <mat-error *ngIf="sellerForm.get('commissionRate')?.hasError('min')">
+            Must be at least 0%
+          </mat-error>
+          <mat-error *ngIf="sellerForm.get('commissionRate')?.hasError('max')">
+            Cannot exceed 100%
+          </mat-error>
+        </mat-form-field>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline">
+            <mat-label>Password</mat-label>
+            <input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'" required>
+            <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword">
+              <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            <mat-error *ngIf="sellerForm.get('password')?.hasError('required')">
+              Password is required
+            </mat-error>
+            <mat-error *ngIf="sellerForm.get('password')?.hasError('minlength')">
+              Password must be at least 8 characters
+            </mat-error>
+            <mat-error *ngIf="sellerForm.get('password')?.hasError('maxlength')">
+              Maximum 255 characters allowed
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Confirm Password</mat-label>
+            <input matInput formControlName="confirmPassword" [type]="hideConfirmPassword ? 'password' : 'text'" required>
+            <button mat-icon-button matSuffix (click)="hideConfirmPassword = !hideConfirmPassword">
+              <mat-icon>{{hideConfirmPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            <mat-error *ngIf="sellerForm.get('confirmPassword')?.hasError('required')">
+              Please confirm password
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <mat-error *ngIf="sellerForm.hasError('mismatch')" class="form-wide-error">
+          Passwords do not match
+        </mat-error>
+
+        <div class="form-actions">
+          <button 
+            mat-raised-button 
+            color="primary" 
+            type="submit"
+            [disabled]="sellerForm.invalid || isLoading"
+          >
+            <span *ngIf="!isLoading">Register Seller</span>
+            <mat-spinner *ngIf="isLoading" diameter="24"></mat-spinner>
+          </button>
+          <button 
+            mat-stroked-button 
+            type="button"
+            (click)="onCancel()"
+            [disabled]="isLoading"
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
